@@ -1,0 +1,36 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="16">
+            <item index="0" class="java.lang.String" itemvalue="jwt" />
+            <item index="1" class="java.lang.String" itemvalue="pandas" />
+            <item index="2" class="java.lang.String" itemvalue="catboost" />
+            <item index="3" class="java.lang.String" itemvalue="implicit" />
+            <item index="4" class="java.lang.String" itemvalue="scikit_learn" />
+            <item index="5" class="java.lang.String" itemvalue="lightfm" />
+            <item index="6" class="java.lang.String" itemvalue="psycopg2-binary" />
+            <item index="7" class="java.lang.String" itemvalue="numpy" />
+            <item index="8" class="java.lang.String" itemvalue="win32_setctime" />
+            <item index="9" class="java.lang.String" itemvalue="pydantic_core" />
+            <item index="10" class="java.lang.String" itemvalue="typing_extensions" />
+            <item index="11" class="java.lang.String" itemvalue="base64" />
+            <item index="12" class="java.lang.String" itemvalue="duckduckgo-search" />
+            <item index="13" class="java.lang.String" itemvalue="email-validator" />
+            <item index="14" class="java.lang.String" itemvalue="PyPDFLoader" />
+            <item index="15" class="java.lang.String" itemvalue="uvicorn" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N806" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
