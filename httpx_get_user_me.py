@@ -59,6 +59,7 @@ def main():
         print(user_data)
         print("Статус код:", status_code)
 
+
     except Exception as e:
         print("Ошибка выполнения:", str(e))
 
