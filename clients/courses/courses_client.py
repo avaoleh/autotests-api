@@ -41,7 +41,7 @@ class CoursesClient(APIClient):
     def get_course(self, course_id: str) -> CourseSchema:
         response = self.get_course_api(course_id)
         data = response.json()
-        return CourseSchema(**data)
+        return CourseSchema.model_validate_json(response.text)
 
     def create_course(self, request: CreateCourseRequestSchema) -> CreateCourseResponseSchema:
         response = self.create_course_api(request)
@@ -49,7 +49,7 @@ class CoursesClient(APIClient):
 
     def update_course(self, course_id: str, request: UpdateCourseRequestSchema) -> CourseSchema:
         response = self.update_course_api(course_id, request)
-        return CourseSchema(**response.json())
+        return CourseSchema.model_validate_json(response.text)
 
     def delete_course(self, course_id: str) -> None:
         response = self.delete_course_api(course_id)

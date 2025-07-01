@@ -1,49 +1,53 @@
-# clients/exercises/exercises_schema.py
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
+from tools.fakers import fake
 
 
 class ExerciseSchema(BaseModel):
-    model_config = {'populate_by_name': True}
+    model_config = ConfigDict(populate_by_name=True)
 
     id: str
     title: str
-    courseId: str = Field(..., alias="courseId")
-    maxScore: int = Field(..., alias="maxScore")
-    minScore: int = Field(..., alias="minScore")
-    orderIndex: int = Field(..., alias="orderIndex")
-    description: str = Field(..., alias="description")
-    estimatedTime: str = Field(..., alias="estimatedTime")
+    course_id: str = Field(alias="courseId")
+    max_score: int = Field(alias="maxScore")
+    min_score: int = Field(alias="minScore")
+    order_index: int = Field(alias="orderIndex")
+    description: str = Field(alias="description")
+    estimated_time: str = Field(alias="estimatedTime")
 
 
 class CreateExerciseRequestSchema(BaseModel):
-    model_config = {'populate_by_name': True}
+    model_config = ConfigDict(populate_by_name=True)
 
-    title: str
-    courseId: str = Field(..., alias="courseId")
-    maxScore: int = Field(..., alias="maxScore")
-    minScore: int = Field(..., alias="minScore")
-    orderIndex: int = Field(..., alias="orderIndex")
-    description: str = Field(..., alias="description")
-    estimatedTime: str = Field(..., alias="estimatedTime")
+    title: str = Field(default_factory=fake.sentence)
+    course_id: str = Field(alias="courseId", default_factory=fake.uuid4)
+    max_score: int = Field(alias="maxScore", default_factory=fake.max_score)
+    min_score: int = Field(alias="minScore", default_factory=fake.min_score)
+    order_index: int = Field(alias="orderIndex", default_factory=fake.integer)
+    description: str = Field(alias="description", default_factory=fake.text)
+    estimated_time: str = Field(alias="estimatedTime", default_factory=fake.estimated_time)
 
 
 class GetExercisesResponseSchema(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     exercises: List[ExerciseSchema]
 
 
 class CreateExerciseResponseSchema(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     exercise: ExerciseSchema
 
 
 class UpdateExerciseRequestSchema(BaseModel):
-    model_config = {'populate_by_name': True}
+    model_config = ConfigDict(populate_by_name=True)
 
-    title: Optional[str] = None
-    courseId: Optional[str] = None
-    maxScore: Optional[int] = None
-    minScore: Optional[int] = None
-    orderIndex: Optional[int] = None
-    description: Optional[str] = None
-    estimatedTime: Optional[str] = None
+    title: Optional[str] = Field(default_factory=fake.sentence)
+    course_id: Optional[str] = Field(alias="courseId", default_factory=fake.uuid4)
+    max_score: Optional[int] = Field(alias="maxScore", default_factory=fake.max_score)
+    min_score: Optional[int] = Field(alias="minScore", default_factory=fake.min_score)
+    order_index: Optional[int] = Field(alias="orderIndex", default_factory=fake.integer)
+    description: Optional[str] = Field(alias="description", default_factory=fake.text)
+    estimated_time: Optional[str] = Field(alias="estimatedTime", default_factory=fake.estimated_time)
