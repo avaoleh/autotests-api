@@ -7,13 +7,13 @@ from clients.private_http_builder import AuthenticationUserSchema
 # Импортируем функцию валидации из tools
 from tools.assertions.schema import validate_json_schema
 
-from tools.fakers import get_random_email
+from tools.fakers import fake
 
 # Шаг 1: Создаем пользователя
 public_users_client = get_public_users_client()
 
 create_user_request = CreateUserRequestSchema(
-    email=get_random_email(),
+    email=fake.email(),
     password="string",
     last_name="string",
     first_name="string",
