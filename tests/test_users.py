@@ -32,19 +32,20 @@ def test_get_user_me(private_users_client: PrivateUsersClient, function_user) ->
     Тестируем GET /api/v1/users/me
     Проверяем:
       - статус-код 200
-      - валидацию JSON schema
-      - соответствие данных
+      - валидацию JSON schema через validate_json_schema
+      - соответствие данных пользователя
     """
     # Шаг 1: Выполняем запрос
     response = private_users_client.get_user_me_api()
 
     # Шаг 2: Проверяем статус
-    assert response.status_code == HTTPStatus.OK, (
-        f"Ожидался статус 200, получен {response.status_code}"
-    )
+    assert_status_code(response.status_code, HTTPStatus.OK)
 
-    # Шаг 3: Парсим тело ответа и валидируем схему
+    # Шаг 3: Валидируем JSON-схему ответа
+    validate_json_schema(response.json(), GetUserResponseSchema.model_json_schema())
+
+    # Шаг 4: Парсим данные для сравнения
     get_user_response = GetUserResponseSchema.model_validate(response.json())
 
-    # Шаг 4: Проверяем корректность данных
+    # Шаг 5: Проверяем корректность тела ответа
     assert_get_user_response(get_user_response, function_user.response)
