@@ -1,17 +1,19 @@
 from typing import TypedDict
 from pydantic import BaseModel
 from httpx import Client
+from functools import lru_cache  # Импортируем функцию для кеширования
 
 from clients.authentication.authentication_client import get_authentication_client
 from clients.authentication.authentication_schema import LoginRequestSchema
 
 # Добавили суффикс Schema вместо Dict
-class AuthenticationUserSchema(BaseModel):  # Наследуем от BaseModel вместо TypedDict
+class AuthenticationUserSchema(BaseModel, frozen=True):  # Добавили параметр frozen=True
     email: str
     password: str
 
 
 # Создаем private builder
+@lru_cache(maxsize=None)  # Кешируем возвращаемое значение
 def get_private_http_client(user: AuthenticationUserSchema) -> Client:
     authentication_client = get_authentication_client()
 
