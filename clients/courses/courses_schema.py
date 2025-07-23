@@ -16,7 +16,7 @@ class CourseSchema(BaseModel):
     description: str = Field(alias="description")
     estimated_time: str = Field(alias="estimatedTime")
     preview_file: File = Field(alias="previewFile")
-    created_by_user: User = Field( alias="createdByUserId")
+    created_by_user: User = Field( alias="createdByUser")
 
 
 class CreateCourseRequestSchema(BaseModel):
