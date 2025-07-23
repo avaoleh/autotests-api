@@ -16,7 +16,7 @@ class CourseSchema(BaseModel):
     description: str = Field(alias="description")
     estimated_time: str = Field(alias="estimatedTime")
     preview_file: File = Field(alias="previewFile")
-    created_by_user_id: User = Field( alias="createdByUser")
+    created_by_user: User = Field( alias="createdByUserId")
 
 
 class CreateCourseRequestSchema(BaseModel):
@@ -53,3 +53,9 @@ class CreateCourseResponseSchema(BaseModel):
 
 class GetCoursesResponseSchema(BaseModel):
     courses: List[CourseSchema]
+
+class UpdateCourseResponseSchema(BaseModel):
+    """
+    Описание структуры ответа обновления курса.
+    """
+    course: CourseSchema
