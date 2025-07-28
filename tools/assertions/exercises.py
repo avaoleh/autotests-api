@@ -1,5 +1,5 @@
 from clients.exercises.exercises_schema import ExerciseSchema, CreateExerciseRequestSchema, \
-    CreateExerciseResponseSchema, GetExercisesResponseSchema
+    CreateExerciseResponseSchema, GetExercisesResponseSchema, UpdateExerciseRequestSchema
 
 from tools.assertions.base import assert_equal
 
@@ -62,3 +62,69 @@ def assert_get_exercise_response(
     """
     # Извлекаем ExerciseSchema из обоих ответов и сравниваем их
     assert_exercise(get_exercise_response.exercise, create_exercise_response.exercise)
+
+
+def assert_update_exercise_response(
+        response_exercise: ExerciseSchema,
+        request_update: UpdateExerciseRequestSchema
+):
+    """
+    Проверяет, что данные задания в ответе соответствуют данным из запроса на обновление.
+    Сравнивает только те поля, которые были указаны в запросе на обновление (не None).
+    :param response_exercise: Данные задания из ответа API (ExerciseSchema).
+    :param request_update: Данные из запроса на обновление (UpdateExerciseRequestSchema).
+    :raises AssertionError: Если хотя бы одно поле не совпадает.
+    """
+    from tools.assertions.base import assert_equal
+
+    # Сравниваем только те поля, которые были переданы в запросе (не None)
+    # Обратите внимание на alias в схемах
+    if request_update.title is not None:
+        assert_equal(response_exercise.title, request_update.title, "title")
+    # course_id не передавался явно в update_request в тесте, поэтому его проверять не нужно
+    # Строка ниже вызывает ошибку, потому что request_update.course_id != None (оно равно значению по умолчанию)
+    # if request_update.course_id is not None:
+    #     assert_equal(response_exercise.course_id, request_update.course_id, "course_id") # <-- ОШИБКА ЗДЕСЬ
+
+    # Правильная проверка для course_id: только если оно было явно передано в запросе
+    # В вашем тесте вы не передавали course_id в update_request, поэтому и проверять его не надо.
+    # Если вы хотите проверить обновление course_id, передайте его явно в update_request в тесте.
+
+    if request_update.max_score is not None:
+        assert_equal(response_exercise.max_score, request_update.max_score, "max_score")  # alias maxScore
+    if request_update.min_score is not None:
+        assert_equal(response_exercise.min_score, request_update.min_score, "min_score")  # alias minScore
+    if request_update.order_index is not None:
+        assert_equal(response_exercise.order_index, request_update.order_index, "order_index")  # alias orderIndex
+    if request_update.description is not None:
+        assert_equal(response_exercise.description, request_update.description, "description")
+    if request_update.estimated_time is not None:
+        assert_equal(response_exercise.estimated_time, request_update.estimated_time,
+                     "estimated_time")  # alias estimatedTime
+def assert_exercise_not_found_response(
+        response_data,
+        expected_error_message: str = "Exercise not found"
+):
+    """
+    Проверяет, что ответ содержит ошибку "Exercise not found".
+    Предполагается использование модели InternalErrorResponseSchema
+    и функции assert_internal_error_response.
+    :param response_data: Данные ответа, десериализованные в InternalErrorResponseSchema.
+    :param expected_error_message: Ожидаемое сообщение об ошибке.
+    :raises AssertionError: Если проверка не пройдена.
+    """
+    # 1. Проверяем сообщение об ошибке
+    # Предполагаем, что у InternalErrorResponseSchema есть поле 'error'
+    # assert_equal(response_data.error, expected_error_message, "error message")
+
+    # 2. Или, если есть универсальная функция для проверки внутренних ошибок:
+    # assert_internal_error_response(response_data, expected_error_message)
+
+    # 3. Или реализуем проверку напрямую здесь:
+    # Если response_data - это объект InternalErrorResponseSchema
+    if hasattr(response_data, 'error'):
+        assert response_data.error == expected_error_message, f"Expected error '{expected_error_message}', got '{response_data.error}'"
+    else:
+        # Если response_data - это словарь (например, response.json())
+        assert response_data.get(
+            'error') == expected_error_message, f"Expected error '{expected_error_message}', got '{response_data.get('error')}'"

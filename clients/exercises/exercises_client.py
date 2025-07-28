@@ -26,7 +26,12 @@ class ExercisesClient(APIClient):
         return self.post("/api/v1/exercises", json=request.model_dump(by_alias=True))
 
     def update_exercise_api(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response:
-        return self.patch(f"/api/v1/exercises/{exercise_id}", json=request.model_dump(by_alias=True))
+        return self.patch(
+            f"/api/v1/exercises/{exercise_id}",
+            # -----------------------------------------------
+            json=request.model_dump(by_alias=True, exclude_none=True)
+            # -----------------------------------------------
+        )
 
     def delete_exercise_api(self, exercise_id: str) -> Response:
         return self.delete(f"/api/v1/exercises/{exercise_id}")
