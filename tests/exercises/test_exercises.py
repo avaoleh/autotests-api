@@ -141,7 +141,7 @@ class TestExercises:
     def test_delete_exercise(
             self,
             exercises_client: ExercisesClient,
-            function_exercise: ExerciseFixture  # Используем фикстуру, которая создает задание
+            function_exercise: ExerciseFixture # Используем фикстуру, которая создает задание
     ):
         """
         Тест удаления задания по его ID и проверка, что оно действительно удалено.
@@ -170,22 +170,11 @@ class TestExercises:
 
         # 6. Проверяем тело ответа на GET (должно содержать ошибку "Exercise not found")
         # Десериализуем ответ об ошибке
-        # Если InternalErrorResponseSchema импортирована:
+        # десериализовать JSON ответа в модель ошибки
         error_response_data = InternalErrorResponseSchema.model_validate_json(get_response_after_delete.text)
+        # Проверяем, что ошибка соответствует ожидаемой
         assert_exercise_not_found_response(error_response_data)
 
-        # Альтернатива: если схема не импортирована или не определена, работаем с JSON напрямую
-        # try:
-        #     response_json = get_response_after_delete.json()
-        # except ValueError:
-        #     # Если ответ не JSON
-        #     response_json = {}
-        #     # Можно добавить проверку, что тело ответа пустое или содержит определенный текст
-        #     assert get_response_after_delete.text == "", "Expected empty response body for 404 error"
-        #
-        # if response_json:  # Если JSON удалось распарсить
-        #     assert_exercise_not_found_response(response_json)  # Используем альтернативную реализацию
-
         # 7. Провалидируем JSON schema ответа на ошибку
-        # Если используется InternalErrorResponseSchema:
         validate_json_schema(get_response_after_delete.json(), error_response_data.model_json_schema())
+

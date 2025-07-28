@@ -1,7 +1,9 @@
+from clients.errors_schema import InternalErrorResponseSchema
 from clients.exercises.exercises_schema import ExerciseSchema, CreateExerciseRequestSchema, \
     CreateExerciseResponseSchema, GetExercisesResponseSchema, UpdateExerciseRequestSchema
 
 from tools.assertions.base import assert_equal
+from tools.assertions.errors import assert_internal_error_response
 
 
 def assert_create_exercise_response(
@@ -101,30 +103,32 @@ def assert_update_exercise_response(
     if request_update.estimated_time is not None:
         assert_equal(response_exercise.estimated_time, request_update.estimated_time,
                      "estimated_time")  # alias estimatedTime
+
+
 def assert_exercise_not_found_response(
-        response_data,
-        expected_error_message: str = "Exercise not found"
+        response_data: InternalErrorResponseSchema,  # Используем существующую модель
+        expected_error_message: str = "Exercise not found"  # Ожидаемое сообщение
 ):
     """
     Проверяет, что ответ содержит ошибку "Exercise not found".
-    Предполагается использование модели InternalErrorResponseSchema
-    и функции assert_internal_error_response.
+    Использует существующую модель InternalErrorResponseSchema
+    и функцию assert_internal_error_response.
     :param response_data: Данные ответа, десериализованные в InternalErrorResponseSchema.
+                          InternalErrorResponseSchema есть поле 'details'
+                          или аналог, содержащее сообщение об ошибке.
     :param expected_error_message: Ожидаемое сообщение об ошибке.
     :raises AssertionError: Если проверка не пройдена.
     """
-    # 1. Проверяем сообщение об ошибке
-    # Предполагаем, что у InternalErrorResponseSchema есть поле 'error'
-    # assert_equal(response_data.error, expected_error_message, "error message")
+    # Создаем ожидаемый объект ошибки для сравнения
+    expected_error = InternalErrorResponseSchema(details=expected_error_message)
 
-    # 2. Или, если есть универсальная функция для проверки внутренних ошибок:
-    # assert_internal_error_response(response_data, expected_error_message)
+    # Если сообщение об ошибке хранится в другом поле, например, 'error':
+    # expected_error = InternalErrorResponseSchema(error=expected_error_message)
 
-    # 3. Или реализуем проверку напрямую здесь:
-    # Если response_data - это объект InternalErrorResponseSchema
-    if hasattr(response_data, 'error'):
-        assert response_data.error == expected_error_message, f"Expected error '{expected_error_message}', got '{response_data.error}'"
-    else:
-        # Если response_data - это словарь (например, response.json())
-        assert response_data.get(
-            'error') == expected_error_message, f"Expected error '{expected_error_message}', got '{response_data.get('error')}'"
+    # Если структура более сложная, создайте объект соответственно.
+    # Например, если details - это словарь:
+    # expected_error = InternalErrorResponseSchema(details={"message": expected_error_message})
+
+    # Проверяем, что ответ соответствует ожидаемой ошибке
+    # с помощью универсальной функции
+    assert_internal_error_response(response_data, expected_error)
