@@ -11,7 +11,7 @@ from fixtures.courses import CourseFixture
 from fixtures.exercises import ExerciseFixture
 from tools.assertions.base import assert_status_code, assert_equal
 from tools.assertions.exercises import assert_create_exercise_response, assert_get_exercise_response, \
-    assert_update_exercise_response, assert_exercise_not_found_response
+    assert_update_exercise_response, assert_exercise_not_found_response, assert_get_exercises_response
 from tools.assertions.schema import validate_json_schema
 
 
@@ -68,14 +68,13 @@ class TestExercises:
         assert_status_code(response.status_code, HTTPStatus.OK)
 
         # 4. Десериализуем тело ответа в схему ответа на получение
-        response_data = GetExercisesResponseSchema.model_validate_json(response.text)
-
-        # Проверяем, что код ответа 200 OK
-        assert_status_code(response.status_code, HTTPStatus.OK)
+        response_data = CreateExerciseResponseSchema.model_validate_json(response.text)
+        # Извлекаем ExerciseSchema для assert_get_exercise_response
+        exercise_from_get = response_data.exercise
 
         # 5. Проверяем тело ответа с помощью новой функции assert
-        # Передаем response_data (результат GET) и function_exercise.response (результат POST)
-        assert_get_exercise_response(response_data, function_exercise.response)
+        # Передаем ExerciseSchema из GET и ExerciseSchema из POST (function_exercise.response.exercise)
+        assert_get_exercise_response(exercise_from_get, function_exercise.response.exercise)
 
         # 6. Проверяем JSON-схему ответа
         validate_json_schema(response.json(), response_data.model_json_schema())
@@ -177,4 +176,50 @@ class TestExercises:
 
         # 7. Провалидируем JSON schema ответа на ошибку
         validate_json_schema(get_response_after_delete.json(), error_response_data.model_json_schema())
+
+    def test_get_exercises(
+            self,
+            exercises_client: ExercisesClient,
+            function_exercise: ExerciseFixture, # Создает одно задание и обеспечивает course_id
+            # function_course: CourseFixture # Не обязательно, если function_exercise дает нужный course_id
+    ):
+        """
+        Тест получения списка заданий по course_id.
+        Выполняет GET-запрос к /api/v1/exercises с параметром courseId.
+        Проверяет статус-код, тело ответа и JSON-схему.
+        :param exercises_client: Клиент для работы с заданиями.
+        :param function_exercise: Фикстура, создающая одно тестовое задание.
+                               Используется для получения course_id.
+        """
+        # 1. Получаем ID курса из созданного задания
+        # Предполагаем, что задание привязано к курсу
+        course_id = function_exercise.request.course_id # Или function_exercise.response.exercise.course_id
+        print(f"Getting exercises for course ID: {course_id}")
+
+        # 2. Формируем параметры запроса
+        # ИСПРАВЛЕНО: Имя параметра должно соответствовать спецификации API - "courseId"
+        # ---------------------------------------------------------------
+        query_params = {"courseId": course_id}
+        # ---------------------------------------------------------------
+
+        # 3. Отправляем GET-запрос на получение списка заданий
+        response_api = exercises_client.get_exercises_api(query_params)
+
+        # 4. Проверяем статус-код ответа
+        # Добавим отладочный вывод в случае ошибки
+        if response_api.status_code != HTTPStatus.OK:
+             print(f"Error response text: {response_api.text}")
+        assert_status_code(response_api.status_code, HTTPStatus.OK)
+
+        # 5. Десериализуем JSON-ответ в Pydantic-модель
+        response_data = GetExercisesResponseSchema.model_validate_json(response_api.text)
+
+        # 6. Проверяем тело ответа
+        # Мы ожидаем, что в списке будет как минимум одно задание,
+        # созданное фикстурой function_exercise.
+        expected_exercises_list = [function_exercise.response.exercise]
+        assert_get_exercises_response(response_data, expected_exercises_list)
+
+        # 7. Провалидируем JSON-схему ответа
+        validate_json_schema(response_api.json(), response_data.model_json_schema())
 

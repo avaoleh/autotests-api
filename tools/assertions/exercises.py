@@ -2,7 +2,7 @@ from clients.errors_schema import InternalErrorResponseSchema
 from clients.exercises.exercises_schema import ExerciseSchema, CreateExerciseRequestSchema, \
     CreateExerciseResponseSchema, GetExercisesResponseSchema, UpdateExerciseRequestSchema
 
-from tools.assertions.base import assert_equal
+from tools.assertions.base import assert_equal, assert_length
 from tools.assertions.errors import assert_internal_error_response
 
 
@@ -132,3 +132,23 @@ def assert_exercise_not_found_response(
     # Проверяем, что ответ соответствует ожидаемой ошибке
     # с помощью универсальной функции
     assert_internal_error_response(response_data, expected_error)
+
+def assert_get_exercises_response(
+        actual_response: GetExercisesResponseSchema,
+        expected_exercises: list[ExerciseSchema] # Список ожидаемых ExerciseSchema
+):
+    """
+    Проверяет, что ответ на получение списка заданий соответствует ожидаемому списку.
+    Сравнивает длину списка и каждое задание в нем.
+    :param actual_response: Фактический ответ API (GetExercisesResponseSchema).
+    :param expected_exercises: Список ожидаемых заданий (list[ExerciseSchema]).
+    :raises AssertionError: Если проверка не пройдена.
+    """
+    # 1. Проверяем, что длина списка exercises в ответе равна ожидаемой
+    assert_length(actual_response.exercises, len(expected_exercises), "exercises list length")
+
+    # 2. Проверяем каждое задание в списке
+    for i, expected_exercise in enumerate(expected_exercises):
+        actual_exercise = actual_response.exercises[i]
+        # assert_exercise проверяет все поля двух ExerciseSchema
+        assert_exercise(actual_exercise, expected_exercise)
