@@ -8,7 +8,7 @@ from clients.exercises.exercises_schema import (
     CreateExerciseResponseSchema,
 )
 from clients.private_http_builder import AuthenticationUserSchema, get_private_http_client
-
+import allure
 
 class ExercisesClient(APIClient):
     """
@@ -16,15 +16,19 @@ class ExercisesClient(APIClient):
     Предоставляет методы для получения, создания, обновления и удаления заданий.
     """
 
+    @allure.step("Get exercises")
     def get_exercises_api(self, query: dict) -> Response:
         return self.get("/api/v1/exercises", params=query)
 
+    @allure.step("Get exercise by id {exercises_id}")
     def get_exercise_api(self, exercise_id: str) -> Response:
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
+    @allure.step("Create exercise")
     def create_exercise_api(self, request: CreateExerciseRequestSchema) -> Response:
         return self.post("/api/v1/exercises", json=request.model_dump(by_alias=True))
 
+    @allure.step("Update exercise")
     def update_exercise_api(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response:
         return self.patch(
             f"/api/v1/exercises/{exercise_id}",
@@ -33,6 +37,7 @@ class ExercisesClient(APIClient):
             # -----------------------------------------------
         )
 
+    @allure.step("Delete exercise")
     def delete_exercise_api(self, exercise_id: str) -> Response:
         return self.delete(f"/api/v1/exercises/{exercise_id}")
 
