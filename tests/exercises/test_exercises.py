@@ -2,22 +2,37 @@ from http import HTTPStatus
 
 import pytest
 import json
-
+import allure
 from clients.errors_schema import InternalErrorResponseSchema
 from clients.exercises.exercises_client import ExercisesClient
 from clients.exercises.exercises_schema import CreateExerciseRequestSchema, CreateExerciseResponseSchema, \
     GetExercisesResponseSchema, ExerciseSchema, UpdateExerciseRequestSchema
 from fixtures.courses import CourseFixture
 from fixtures.exercises import ExerciseFixture
+from tools.allure.tags import AllureTag
 from tools.assertions.base import assert_status_code, assert_equal
 from tools.assertions.exercises import assert_create_exercise_response, assert_get_exercise_response, \
     assert_update_exercise_response, assert_exercise_not_found_response, assert_get_exercises_response
 from tools.assertions.schema import validate_json_schema
 
+from tools.allure.epics import AllureEpic  # Импортируем enum AllureEpic
+from tools.allure.features import AllureFeature  # Импортируем enum AllureFeature
+from tools.allure.stories import AllureStory
+from allure_commons.types import Severity
 
 @pytest.mark.exercises
 @pytest.mark.regression
+@allure.tag(AllureTag.EXERCISES, AllureTag.REGRESSION)
+@allure.epic(AllureEpic.LMS)  # Добавили epic
+@allure.feature(AllureFeature.EXERCISES)
+@allure.parent_suite(AllureEpic.LMS)  # allure.parent_suite == allure.epic
+@allure.suite(AllureFeature.EXERCISES)  # allure.suite == allure.feature
 class TestExercises:
+    @allure.tag(AllureTag.CREATE_ENTITY)
+    @allure.story(AllureStory.CREATE_ENTITY)  # Добавили story
+    @allure.title("Create exercise")
+    @allure.severity(Severity.BLOCKER)
+    @allure.sub_suite(AllureStory.CREATE_ENTITY)
     def test_create_exercise(
             self,
             exercises_client: ExercisesClient,
@@ -46,6 +61,11 @@ class TestExercises:
         # Валидируем JSON-схему ответа
         validate_json_schema(response.json(), response_data.model_json_schema())
 
+    @allure.tag(AllureTag.GET_ENTITY)
+    @allure.story(AllureStory.GET_ENTITY)  # Добавили story
+    @allure.title("Get exercise")
+    @allure.severity(Severity.BLOCKER)
+    @allure.sub_suite(AllureStory.GET_ENTITY)
     def test_get_exercise(
             self,
             exercises_client: ExercisesClient,
@@ -79,6 +99,11 @@ class TestExercises:
         # 6. Проверяем JSON-схему ответа
         validate_json_schema(response.json(), response_data.model_json_schema())
 
+    @allure.tag(AllureTag.UPDATE_ENTITY)
+    @allure.story(AllureStory.UPDATE_ENTITY)  # Добавили story
+    @allure.title("Update exercise")
+    @allure.severity(Severity.CRITICAL)
+    @allure.sub_suite(AllureStory.UPDATE_ENTITY)
     def test_update_exercise(
             self,
             exercises_client: ExercisesClient,
@@ -103,14 +128,14 @@ class TestExercises:
             # Остальные поля остаются None и не будут отправлены в запросе
             # благодаря exclude_none=True в update_exercise_api
         )
-        print(f"Update request JSON being prepared: {json.dumps(update_request.model_dump(by_alias=True, exclude_none=True), indent=2, ensure_ascii=False)}")
-        print(f"Update request JSON being sent: {json.dumps(update_request.model_dump(by_alias=True), indent=2, ensure_ascii=False)}")
+        # print(f"Update request JSON being prepared: {json.dumps(update_request.model_dump(by_alias=True, exclude_none=True), indent=2, ensure_ascii=False)}")
+        # print(f"Update request JSON being sent: {json.dumps(update_request.model_dump(by_alias=True), indent=2, ensure_ascii=False)}")
 
         # 3. Отправляем PATCH-запрос на обновление задания
         # Используем метод, возвращающий httpx.Response
         response_api = exercises_client.update_exercise_api(exercise_id, update_request)
-        print(f"Response status code: {response_api.status_code}")
-        print(f"Response text: {response_api.text}")
+        # print(f"Response status code: {response_api.status_code}")
+        # print(f"Response text: {response_api.text}")
 
         # 4. Проверяем статус-код ответа
         assert_status_code(response_api.status_code, HTTPStatus.OK)
@@ -137,6 +162,11 @@ class TestExercises:
         # assert_equal(updated_exercise_data.title, update_request.title, "title (after update)")
         # assert_equal(updated_exercise_data.description, update_request.description, "description (after update)")
 
+    @allure.tag(AllureTag.DELETE_ENTITY)
+    @allure.story(AllureStory.DELETE_ENTITY)  # Добавили story
+    @allure.title("Delete exercise")
+    @allure.severity(Severity.BLOCKER)
+    @allure.sub_suite(AllureStory.DELETE_ENTITY)
     def test_delete_exercise(
             self,
             exercises_client: ExercisesClient,
@@ -177,6 +207,11 @@ class TestExercises:
         # 7. Провалидируем JSON schema ответа на ошибку
         validate_json_schema(get_response_after_delete.json(), error_response_data.model_json_schema())
 
+    @allure.tag(AllureTag.GET_ENTITIES)
+    @allure.story(AllureStory.GET_ENTITIES)  # Добавили story
+    @allure.title("Get exercises")
+    @allure.severity(Severity.BLOCKER)
+    @allure.sub_suite(AllureStory.GET_ENTITIES)
     def test_get_exercises(
             self,
             exercises_client: ExercisesClient,
@@ -206,9 +241,6 @@ class TestExercises:
         response_api = exercises_client.get_exercises_api(query_params)
 
         # 4. Проверяем статус-код ответа
-        # Добавим отладочный вывод в случае ошибки
-        if response_api.status_code != HTTPStatus.OK:
-             print(f"Error response text: {response_api.text}")
         assert_status_code(response_api.status_code, HTTPStatus.OK)
 
         # 5. Десериализуем JSON-ответ в Pydantic-модель
