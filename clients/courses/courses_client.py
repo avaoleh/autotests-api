@@ -10,6 +10,7 @@ from clients.courses.courses_schema import (
 )
 from clients.private_http_builder import AuthenticationUserSchema, get_private_http_client
 import allure
+from tools.routes import APIRoutes
 
 class CoursesClient(APIClient):
     """
@@ -18,22 +19,31 @@ class CoursesClient(APIClient):
 
     @allure.step("Get courses")
     def get_courses_api(self, query: GetCoursesQuerySchema) -> Response:
-        return self.get("/api/v1/courses", params=query.model_dump(by_alias=True))
+
+        # Вместо /api/v1/courses используем APIRoutes.COURSES
+        return self.get(APIRoutes.COURSES, params=query.model_dump(by_alias=True))
 
     @allure.step("Get course by id {course_id}")
     def get_course_api(self, course_id: str) -> Response:
-        return self.get(f"/api/v1/courses/{course_id}")
+        # Вместо /api/v1/courses используем APIRoutes.COURSES
+        return self.get(f"{APIRoutes.COURSES}/{course_id}")
 
     @allure.step("Create course")
     def create_course_api(self, request: CreateCourseRequestSchema) -> Response:
-        return self.post("/api/v1/courses", json=request.model_dump(by_alias=True))
+        # Вместо /api/v1/courses используем APIRoutes.COURSES
+        return self.post(APIRoutes.COURSES, json=request.model_dump(by_alias=True))
 
     @allure.step("Update course by id {course_id}")
     def update_course_api(self, course_id: str, request: UpdateCourseRequestSchema) -> Response:
-        return self.patch(f"/api/v1/courses/{course_id}", json=request.model_dump(by_alias=True))
+        # Вместо /api/v1/courses используем APIRoutes.COURSES
+        return self.patch(
+            f"{APIRoutes.COURSES}/{course_id}",
+            json=request.model_dump(by_alias=True)
+        )
 
     def delete_course_api(self, course_id: str) -> Response:
-        return self.delete(f"/api/v1/courses/{course_id}")
+        # Вместо /api/v1/courses используем APIRoutes.COURSES
+        return self.delete(f"{APIRoutes.COURSES}/{course_id}")
 
 
     @allure.step("Delete course by id {course_id}")
