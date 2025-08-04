@@ -10,7 +10,7 @@ from clients.exercises.exercises_schema import (
 from clients.private_http_builder import AuthenticationUserSchema, get_private_http_client
 import allure
 from tools.routes import APIRoutes
-
+from clients.api_coverage import tracker
 class ExercisesClient(APIClient):
     """
     Клиент для работы с /api/v1/exercises.
@@ -18,21 +18,25 @@ class ExercisesClient(APIClient):
     """
 
     @allure.step("Get exercises")
+    @tracker.track_coverage_httpx(APIRoutes.EXERCISES)
     def get_exercises_api(self, query: dict) -> Response:
         #return self.get("/api/v1/exercises", params=query)
         return self.get(APIRoutes.EXERCISES, params=query)
 
     @allure.step("Get exercise by id {exercises_id}")
+    @tracker.track_coverage_httpx(f"{APIRoutes.EXERCISES}/{{exercise_id}}")
     def get_exercise_api(self, exercise_id: str) -> Response:
         #return self.get(f"/api/v1/exercises/{exercise_id}")
         return self.get(f"{APIRoutes.EXERCISES}/{exercise_id}")
 
     @allure.step("Create exercise")
+    @tracker.track_coverage_httpx(APIRoutes.EXERCISES)
     def create_exercise_api(self, request: CreateExerciseRequestSchema) -> Response:
         #return self.post("/api/v1/exercises", json=request.model_dump(by_alias=True))
         return self.post(APIRoutes.EXERCISES, json=request.model_dump(by_alias=True))
 
     @allure.step("Update exercise")
+    @tracker.track_coverage_httpx(f"{APIRoutes.EXERCISES}/{{exercise_id}}")
     def update_exercise_api(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response:
         #return self.patch(
         #    f"/api/v1/exercises/{exercise_id}",
@@ -47,6 +51,7 @@ class ExercisesClient(APIClient):
         )
 
     @allure.step("Delete exercise")
+    @tracker.track_coverage_httpx(f"{APIRoutes.EXERCISES}/{{exercise_id}}")
     def delete_exercise_api(self, exercise_id: str) -> Response:
         #return self.delete(f"/api/v1/exercises/{exercise_id}")
         return self.delete(f"{APIRoutes.EXERCISES}/{exercise_id}")
