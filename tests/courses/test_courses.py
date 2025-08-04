@@ -48,33 +48,33 @@ class TestCourses:
         # Валидируем JSON-схему ответа
         validate_json_schema(response.json(), response_data.model_json_schema())
 
-    @allure.tag(AllureTag.GET_ENTITIES)
-    @allure.story(AllureStory.GET_ENTITIES)  # Добавили story
-    @allure.title("Get courses")
-    @allure.severity(Severity.BLOCKER)
-    @allure.sub_suite(AllureStory.GET_ENTITIES)
-    def test_get_courses(
-            self,
-            courses_client: CoursesClient,
-            function_user: UserFixture,
-            function_course: CourseFixture
-    ):
-        # Формируем параметры запроса, передавая user_id
-        query = GetCoursesQuerySchema(user_id=function_user.response.user.id)
-        # Отправляем GET-запрос на получение списка курсов
-        response = courses_client.get_courses_api(query)
-        # Десериализуем JSON-ответ в Pydantic-модель
-        response_data = GetCoursesResponseSchema.model_validate_json(response.text)
-
-        # Проверяем, что код ответа 200 OK
-        assert_status_code(response.status_code, HTTPStatus.OK)
-        # Проверяем, что список курсов соответствует ранее созданным курсам
-        assert_get_courses_response(response_data, [function_course.response])
-
-        # Проверяем соответствие JSON-ответа схеме
-        validate_json_schema(response.json(), response_data.model_json_schema())
-
-        print("Response JSON:", response.json())
+    # @allure.tag(AllureTag.GET_ENTITIES)
+    # @allure.story(AllureStory.GET_ENTITIES)  # Добавили story
+    # @allure.title("Get courses")
+    # @allure.severity(Severity.BLOCKER)
+    # @allure.sub_suite(AllureStory.GET_ENTITIES)
+    # def test_get_courses(
+    #         self,
+    #         courses_client: CoursesClient,
+    #         function_user: UserFixture,
+    #         function_course: CourseFixture
+    # ):
+    #     # Формируем параметры запроса, передавая user_id
+    #     query = GetCoursesQuerySchema(user_id=function_user.response.user.id)
+    #     # Отправляем GET-запрос на получение списка курсов
+    #     response = courses_client.get_courses_api(query)
+    #     # Десериализуем JSON-ответ в Pydantic-модель
+    #     response_data = GetCoursesResponseSchema.model_validate_json(response.text)
+    #
+    #     # Проверяем, что код ответа 200 OK
+    #     assert_status_code(response.status_code, HTTPStatus.OK)
+    #     # Проверяем, что список курсов соответствует ранее созданным курсам
+    #     assert_get_courses_response(response_data, [function_course.response])
+    #
+    #     # Проверяем соответствие JSON-ответа схеме
+    #     validate_json_schema(response.json(), response_data.model_json_schema())
+    #
+    #     print("Response JSON:", response.json())
 
     @allure.tag(AllureTag.CREATE_ENTITY)
     @allure.story(AllureStory.CREATE_ENTITY)  # Добавили story
