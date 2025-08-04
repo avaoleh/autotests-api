@@ -1,106 +1,116 @@
-# Название workflow, отображаемое в интерфейсе GitHub Actions
 name: API tests
 
-# Условия запуска workflow:
 on:
-  push:    # При пуше изменений
+  push:
     branches:
-      - main  # Только в ветку main
-  pull_request:  # При создании/обновлении PR
+      - main
+  pull_request:
     branches:
-      - main  # Только в ветку main
+      - main
 
 jobs:
-  # Первая джоба - запуск автотестов
   run-tests:
-    # Запускаем на последней версии Ubuntu
     runs-on: ubuntu-latest
 
     steps:
-      # Шаг 1: Клонируем репозиторий с тестами
       - name: Check out repository
-        uses: actions/checkout@v4  # Официальное действие для клонирования
+        uses: actions/checkout@v4
 
-      # Шаг 2: Устанавливаем Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'  # Конкретная версия Python
+          python-version: '3.12'
 
-      # Шаг 3: Клонируем репозиторий с тестовым сервером
       - name: Clone test server repository
         run: git clone https://github.com/Nikita-Filonov/qa-automation-engineer-api-course.git
 
-      # Шаг 4: Устанавливаем зависимости для тестового сервера
       - name: Install test server dependencies
         run: pip install -r qa-automation-engineer-api-course/requirements.txt
 
-      # Шаг 5: Запускаем тестовый сервер с переменными окружения
       - name: Start a test server
         env:
-          APP_HOST: "http://localhost:8000"  # Хост сервера
-          DATABASE_URL: "sqlite+aiosqlite:///./local.db" # Локальная БД
-          JWT_ALGORITHM: "HS256" # Алгоритм шифрования JWT
-          JWT_SECRET_KEY: "qa-automation-engineer-api-course-secret-key" # Секретный ключ
-          JWT_ACCESS_TOKEN_EXPIRE: 1800 # Время жизни access token (30 мин)
-          JWT_REFRESH_TOKEN_EXPIRE: 5184000 # Время жизни refresh token (60 дней)
-        # Запуск сервера в фоновом режиме (&)
+          APP_HOST: "http://localhost:8000"
+          DATABASE_URL: "sqlite+aiosqlite:///./local.db"
+          JWT_ALGORITHM: "HS256"
+          JWT_SECRET_KEY: "qa-automation-engineer-api-course-secret-key"
+          JWT_ACCESS_TOKEN_EXPIRE: 1800
+          JWT_REFRESH_TOKEN_EXPIRE: 5184000
         run: uvicorn main:app --host 0.0.0.0 --port 8000 --app-dir ./qa-automation-engineer-api-course &
 
-      # Шаг 6: Устанавливаем зависимости для тестов
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip  # Обновляем pip
-          pip install -r requirements.txt  # Устанавливаем зависимости
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      # Шаг 7: Запускаем тесты и генерируем Allure-отчет
       - name: Run API tests with pytest and generate Allure results
         run: |
-          # Запускаем только regression-тесты с 2 процессами
-          pytest -m regression --alluredir=allure-results --numprocesses 2
+          pytest -m regression --alluredir=allure-results --numprocesses=2
 
-      # Шаг 8: Сохраняем результаты тестов как артефакт
-      - name: Upload Allure results
+      # Восстанавливаем историю покрытия из кеша
+      - name: Restore Coverage history
+        uses: actions/cache/restore@v4
+        with:
+          path: coverage-history.json
+          key: coverage-history-${{ github.run_id }}
+          restore-keys: |
+            coverage-history-
+
+      # Генерируем HTML-отчет и обновляем историю
+      - name: Generate Coverage report
+        run: |
+          swagger-coverage-tool save-report
+
+      # Сохраняем историю обратно в кеш
+      - name: Cache Coverage  history
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: coverage-history.json
+          key: coverage-history-${{ github.run_id }}
+
+      # Загружаем HTML-отчет как артефакт
+      - name: Upload Coverage report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results  # Имя артефакта
-          path: allure-results  # Путь к результатам
+          name: coverage-report
+          path: coverage.html
 
-  # Вторая джоба - публикация отчета
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+
   publish-report:
-    needs: run-tests  # Зависит от успешного выполнения run-tests
+    needs: [ run-tests ]
     runs-on: ubuntu-latest
 
     steps:
-      # Шаг 1: Загружаем сохраненные результаты тестов
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
       - name: Download Allure results
         uses: actions/download-artifact@v4
         with:
-          name: allure-results  # Имя артефакта
-          path: allure-results  # Куда сохранить
+          name: allure-results
+          path: allure-results
 
-      # Шаг 2: Получаем историю отчетов (если есть)
-      - name: Get Allure history
-        uses: actions/checkout@v4
-        if: always()  # Выполнять всегда, даже если предыдущие шаги упали
-        continue-on-error: true  # Не прерывать workflow при ошибке
-        with:
-          ref: gh-pages  # Ветка с историей отчетов
-          path: gh-pages  # Путь для сохранения
-
-      # Шаг 3: Генерируем Allure-отчет с историей
-      - name: Generates Allure Report with history
+      - name: Generate Allure Report with history
         uses: simple-elf/allure-report-action@v1.12
         if: always()
         with:
-          allure_results: allure-results  # Результаты тестов
-          allure_history: allure-history  # История для отчетов
+          allure_results: allure-results
+          allure_history: allure-history
 
-      # Шаг 4: Публикуем отчет на GitHub Pages
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Токен для доступа
-          publish_branch: gh-pages  # Ветка для публикации
-          publish_dir: allure-history  # Папка с отчетом
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
