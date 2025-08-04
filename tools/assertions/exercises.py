@@ -5,7 +5,9 @@ from clients.exercises.exercises_schema import ExerciseSchema, CreateExerciseReq
 from tools.assertions.base import assert_equal, assert_length
 from tools.assertions.errors import assert_internal_error_response
 import allure
+from tools.logger import get_logger  # Импортируем функцию для создания логгера
 
+logger = get_logger("EXERCISE_ASSERTIONS")  # Создаем логгер с именем "EXERCISE_ASSERTIONS"
 @allure.step("Check create exercise response")
 def assert_create_exercise_response(
         request: CreateExerciseRequestSchema,
@@ -18,6 +20,9 @@ def assert_create_exercise_response(
     :param response: Ответ API с данными созданного задания.
     :raises AssertionError: Если хотя бы одно поле не совпадает.
     """
+    # Логируем факт начала проверки
+    logger.info("Check create exercise response")
+
     # Проверяем все поля задания
     assert_equal(response.exercise.title, request.title, "title")
     assert_equal(response.exercise.course_id, request.course_id, "course_id")
@@ -36,6 +41,10 @@ def assert_exercise(actual: ExerciseSchema, expected: ExerciseSchema):
     :param expected: Ожидаемые данные задания (из ответа на создание).
     :raises AssertionError: Если хотя бы одно поле не совпадает.
     """
+    # Логируем факт начала проверки
+    logger.info("Check exercise")
+
+
     # Предполагается, что у вас есть функция assert_equal в tools.assertions.base
     # Если нет, можно использовать простое сравнение или assert для каждого поля
     from tools.assertions.base import assert_equal # Убедитесь, что импорт здесь или вверху файла
@@ -63,6 +72,9 @@ def assert_get_exercise_response(
                                        Ожидается модель CreateExerciseResponseSchema (содержащая .exercise).
     :raises AssertionError: Если данные задания не совпадают.
     """
+    # Логируем факт начала проверки
+    logger.info("Check get exercise response")
+
     # Извлекаем ExerciseSchema из обоих ответов и сравниваем их
     assert_exercise(get_exercise_response.exercise, create_exercise_response.exercise)
 
@@ -78,6 +90,9 @@ def assert_update_exercise_response(
     :param request_update: Данные из запроса на обновление (UpdateExerciseRequestSchema).
     :raises AssertionError: Если хотя бы одно поле не совпадает.
     """
+    # Логируем факт начала проверки
+    logger.info("Check update exercise response")
+
     from tools.assertions.base import assert_equal
 
     # Сравниваем только те поля, которые были переданы в запросе (не None)
@@ -120,6 +135,9 @@ def assert_exercise_not_found_response(
     :param expected_error_message: Ожидаемое сообщение об ошибке.
     :raises AssertionError: Если проверка не пройдена.
     """
+    # Логируем факт начала проверки
+    logger.info("Check exercise not found response")
+
     # Создаем ожидаемый объект ошибки для сравнения
     expected_error = InternalErrorResponseSchema(details=expected_error_message)
 
@@ -146,6 +164,9 @@ def assert_get_exercises_response(
     :param expected_exercises: Список ожидаемых заданий (list[ExerciseSchema]).
     :raises AssertionError: Если проверка не пройдена.
     """
+    # Логируем факт начала проверки
+    logger.info("Check get exercise response")
+
     # 1. Проверяем, что длина списка exercises в ответе равна ожидаемой
     assert_length(actual_response.exercises, len(expected_exercises), "exercises list length")
 
