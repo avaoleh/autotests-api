@@ -1,0 +1,17 @@
+INFO     HTTP_CLIENT:event_hooks.py:29 Make POST request to http://localhost:8000/api/v1/users
+INFO     HTTP_CLIENT:event_hooks.py:39 Got response 200 OK from http://localhost:8000/api/v1/users
+INFO     HTTP_CLIENT:event_hooks.py:29 Make POST request to http://localhost:8000/api/v1/authentication/login
+INFO     HTTP_CLIENT:event_hooks.py:39 Got response 200 OK from http://localhost:8000/api/v1/authentication/login
+INFO     HTTP_CLIENT:event_hooks.py:29 Make POST request to http://localhost:8000/api/v1/exercises
+INFO     HTTP_CLIENT:event_hooks.py:39 Got response 200 OK from http://localhost:8000/api/v1/exercises
+INFO     BASE_ASSERTIONS:base.py:15 Check that response status code equals to 200
+INFO     EXERCISE_ASSERTIONS:exercises.py:24 Check create exercise response
+INFO     BASE_ASSERTIONS:base.py:34 Check that "title" equals to Both up cause source industry until.
+INFO     BASE_ASSERTIONS:base.py:34 Check that "course_id" equals to 6a7d14f9-1a10-40f5-9759-8a0ddb5021e6
+INFO     BASE_ASSERTIONS:base.py:34 Check that "max_score" equals to 97
+INFO     BASE_ASSERTIONS:base.py:34 Check that "min_score" equals to 23
+INFO     BASE_ASSERTIONS:base.py:34 Check that "order_index" equals to 65
+INFO     BASE_ASSERTIONS:base.py:34 Check that "description" equals to Around individual boy entire person poor ground. Buy fall section lay. Small their old loss character. Seek respond report owner.
+Happy forward meet drive. Town international decade word true value.
+INFO     BASE_ASSERTIONS:base.py:34 Check that "estimated_time" equals to 7 weeks
+INFO     SCHEMA_ASSERTIONS:schema.py:22 Validating JSON schema

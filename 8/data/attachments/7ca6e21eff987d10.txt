@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE5OjA4OjQ2LjczODI4NCIsInVzZXJfaWQiOiJkNmNmMGY3Yi05M2NhLTRkNzgtYmM3YS03MDllYjcxNDRhODQifQ.sfGsf3BvQp05TwaX6bBrLnqTz5p5bUnEDVCZjqupRLM' \
+  -H 'content-length: 393' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Study college check unit east.","maxScore":87,"minScore":1,"description":"Property gas particularly together significant inside than. Food play budget take bag.\nAlmost sit manage yeah. Reason value scientist cover exist actually good subject.","estimatedTime":"3 weeks","previewFileId":"2330398d-186b-49c0-b8aa-949135f3b0a1","createdByUserId":"d6cf0f7b-93ca-4d78-bc7a-709eb7144a84"}'

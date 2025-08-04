@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE5OjA4OjQ3Ljg4NTczNyIsInVzZXJfaWQiOiJiNzQ4ZDhlMS01M2YzLTQ0MjQtYmQxOS0yODk3MDhlNTI5OTQifQ.VhxiJ1YKzsFbGJfbvbEqBZ5yh0VwR064sj3HTFQ-ygA' \
+  -H 'content-length: 376' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Remember around perhaps mention technology.","maxScore":83,"minScore":29,"description":"Generation big red consumer capital feeling race. Similar black control around.\nToward friend tough. Author understand use town arm long.","estimatedTime":"9 weeks","previewFileId":"820dcab4-8e78-45eb-94d9-e158d99e6298","createdByUserId":"b748d8e1-53f3-4424-bd19-289708e52994"}'
