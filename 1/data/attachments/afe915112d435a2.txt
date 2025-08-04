@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE1OjIxOjEzLjcyNjc5NiIsInVzZXJfaWQiOiIzZGEwZGNmZi02OGYxLTRhZjQtYWI5Mi03YTc2NmFkOWJjNzAifQ.VhZ9FAH9U2-JycMEf3VyXwZyNqwSjizbn5Ra_sZlu00' \
+  -H 'content-length: 343' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Able out TV writer perform who year.","courseId":"d8d0f49a-d785-43ce-980e-ffdbcd07523f","maxScore":98,"minScore":5,"orderIndex":72,"description":"Space interest site star. Dark of every range including case.\nRise economic market. Language bring peace plant cultural. Direction project price page present.","estimatedTime":"6 weeks"}'
