@@ -38,7 +38,8 @@ class FilesClient(APIClient):
         return self.post(
             APIRoutes.FILES,
             data=request.model_dump(by_alias=True, exclude={'upload_file'}),
-            files={"upload_file": request.upload_file.read_bytes()}
+            #files={"upload_file": request.upload_file.read_bytes()}
+            files = {"upload_file": open(request.upload_file, 'rb')}
         )
 
     @allure.step("Delete file by id {file_id}")
