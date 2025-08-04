@@ -78,7 +78,7 @@ class TestExercises:
         Проверяет статус-код, тело ответа и JSON-схему.
         """
         # 1. Получаем ID задания из фикстуры
-        exercise_id = function_exercise.response.exercise.id
+        exercise_id = function_exercise.response.id
         print(f"exercise_id: {exercise_id}")
         # 2. Отправляем GET-запрос на получение задания
         response = exercises_client.get_exercise_api(exercise_id)
