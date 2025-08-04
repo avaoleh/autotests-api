@@ -1,0 +1,32 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+        Тест создания курса через API.
+
+        :param courses_client: Клиент для работы с курсами
+        :param function_file: Фикстура файла для preview
+        :param function_user: Фикстура пользователя как создателя курса
+        ","34","Create course","LMS service","Mon Aug 04 20:06:41 GMT 2025","passed","Mon Aug 04 20:06:41 GMT 2025","Create entity","Courses","",""
+"","22","Delete file","LMS service","Mon Aug 04 20:06:45 GMT 2025","passed","Mon Aug 04 20:06:45 GMT 2025","Delete entity","Files","",""
+"","22","Create file","LMS service","Mon Aug 04 20:06:43 GMT 2025","passed","Mon Aug 04 20:06:43 GMT 2025","Create entity","Files","",""
+"
+        Негативный тест: Получение файла с некорректным идентификатором.
+
+        Отправляет GET-запрос к /files/{file_id} с недопустимым UUID.
+        Ожидается статус-код 422 (Unprocessable Entity) и
+        соответствующая ошибка валидации типа 'uuid_parsing'.
+        ","17","Get file with incorrect file id","LMS service","Mon Aug 04 20:06:45 GMT 2025","passed","Mon Aug 04 20:06:45 GMT 2025","Validate entity","Files","",""
+"","553","Login with correct email and password","LMS service","Mon Aug 04 20:06:40 GMT 2025","passed","Mon Aug 04 20:06:41 GMT 2025","Login","Authentication","",""
+"","554","Create user","LMS service","Mon Aug 04 20:06:45 GMT 2025","passed","Mon Aug 04 20:06:46 GMT 2025","Create entity","Users","",""
+"","529","Create user","LMS service","Mon Aug 04 20:06:46 GMT 2025","passed","Mon Aug 04 20:06:46 GMT 2025","Create entity","Users","",""
+"","263","Create file with empty filename","LMS service","Mon Aug 04 20:06:44 GMT 2025","passed","Mon Aug 04 20:06:44 GMT 2025","Validate entity","Files","",""
+"","20","Create file with empty directory","LMS service","Mon Aug 04 20:06:44 GMT 2025","passed","Mon Aug 04 20:06:44 GMT 2025","Validate entity","Files","",""
+"
+        Тест создания задания через API.
+
+        :param exercises_client: Клиент для работы с заданиями
+
+        ","40","Create exercise","LMS service","Mon Aug 04 20:06:42 GMT 2025","passed","Mon Aug 04 20:06:42 GMT 2025","Create entity","Exercises","",""
+"","288","Create user","LMS service","Mon Aug 04 20:06:45 GMT 2025","passed","Mon Aug 04 20:06:46 GMT 2025","Create entity","Users","",""
+"","14","Get file","LMS service","Mon Aug 04 20:06:43 GMT 2025","passed","Mon Aug 04 20:06:43 GMT 2025","Get entity","Files","",""
+"","16","Get user me","LMS service","Mon Aug 04 20:06:47 GMT 2025","passed","Mon Aug 04 20:06:47 GMT 2025","Get entity","Users","",""
+"","47","Update course","LMS service","Mon Aug 04 20:06:42 GMT 2025","passed","Mon Aug 04 20:06:42 GMT 2025","Update entity","Courses","",""

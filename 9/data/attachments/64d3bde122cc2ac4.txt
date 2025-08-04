@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDIwOjM2OjQxLjk3NDQ1MCIsInVzZXJfaWQiOiI3OTRlNGMxMy1jNjg4LTQ3MjItOGYwMC03OWVjZDRlMzdmZWYifQ.1CYdEDwUY7P1a9rvy6IERImAAhd-0uyoP4n7FMXX0Rg' \
+  -H 'content-length: 315' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Commercial prove hear system.","maxScore":70,"minScore":23,"description":"Behind or food worker skin maintain prove. Each choice hot medical. Difficult since camera.","estimatedTime":"6 weeks","previewFileId":"a28d7552-aa4e-41a9-b7dc-b0fac0138298","createdByUserId":"794e4c13-c688-4722-8f00-79ecd4e37fef"}'
