@@ -1,0 +1,32 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","22","Delete file","LMS service","Mon Aug 04 20:07:25 GMT 2025","passed","Mon Aug 04 20:07:25 GMT 2025","Delete entity","Files","",""
+"","36","Update course","LMS service","Mon Aug 04 20:07:22 GMT 2025","passed","Mon Aug 04 20:07:22 GMT 2025","Update entity","Courses","",""
+"","17","Create file","LMS service","Mon Aug 04 20:07:23 GMT 2025","passed","Mon Aug 04 20:07:23 GMT 2025","Create entity","Files","",""
+"","288","Create user","LMS service","Mon Aug 04 20:07:26 GMT 2025","passed","Mon Aug 04 20:07:26 GMT 2025","Create entity","Users","",""
+"","524","Create user","LMS service","Mon Aug 04 20:07:26 GMT 2025","passed","Mon Aug 04 20:07:26 GMT 2025","Create entity","Users","",""
+"","255","Create file with empty filename","LMS service","Mon Aug 04 20:07:24 GMT 2025","passed","Mon Aug 04 20:07:24 GMT 2025","Validate entity","Files","",""
+"
+        Тест создания курса через API.
+
+        :param courses_client: Клиент для работы с курсами
+        :param function_file: Фикстура файла для preview
+        :param function_user: Фикстура пользователя как создателя курса
+        ","33","Create course","LMS service","Mon Aug 04 20:07:21 GMT 2025","passed","Mon Aug 04 20:07:21 GMT 2025","Create entity","Courses","",""
+"","15","Create file with empty directory","LMS service","Mon Aug 04 20:07:24 GMT 2025","passed","Mon Aug 04 20:07:24 GMT 2025","Validate entity","Files","",""
+"
+        Тест создания задания через API.
+
+        :param exercises_client: Клиент для работы с заданиями
+
+        ","27","Create exercise","LMS service","Mon Aug 04 20:07:22 GMT 2025","passed","Mon Aug 04 20:07:22 GMT 2025","Create entity","Exercises","",""
+"","548","Login with correct email and password","LMS service","Mon Aug 04 20:07:20 GMT 2025","passed","Mon Aug 04 20:07:21 GMT 2025","Login","Authentication","",""
+"","543","Create user","LMS service","Mon Aug 04 20:07:26 GMT 2025","passed","Mon Aug 04 20:07:26 GMT 2025","Create entity","Users","",""
+"","13","Get user me","LMS service","Mon Aug 04 20:07:27 GMT 2025","passed","Mon Aug 04 20:07:27 GMT 2025","Get entity","Users","",""
+"
+        Негативный тест: Получение файла с некорректным идентификатором.
+
+        Отправляет GET-запрос к /files/{file_id} с недопустимым UUID.
+        Ожидается статус-код 422 (Unprocessable Entity) и
+        соответствующая ошибка валидации типа 'uuid_parsing'.
+        ","13","Get file with incorrect file id","LMS service","Mon Aug 04 20:07:25 GMT 2025","passed","Mon Aug 04 20:07:26 GMT 2025","Validate entity","Files","",""
+"","15","Get file","LMS service","Mon Aug 04 20:07:23 GMT 2025","passed","Mon Aug 04 20:07:23 GMT 2025","Get entity","Files","",""
