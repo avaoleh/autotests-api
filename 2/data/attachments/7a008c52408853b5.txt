@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE1OjMwOjU5LjU2NjY3NyIsInVzZXJfaWQiOiIzZDgzNzA2Yy04ZjY1LTRkZmQtYWMyYS0xN2QxNTkwYWIzOWUifQ.xjsLPP98NAytOCKj35-ZsaCbEAlvmaWoKfNOjEc95U0' \
+  -H 'content-length: 376' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Teach prevent two bed.","maxScore":99,"minScore":17,"description":"Media blue final case. Response again blue road single participant medical.\nKey current approach. Heavy garden bed leave others.\nElection mention soon light.","estimatedTime":"4 weeks","previewFileId":"790da398-614e-4cff-ae49-03277eacc152","createdByUserId":"3d83706c-8f65-4dfd-ac2a-17d1590ab39e"}'

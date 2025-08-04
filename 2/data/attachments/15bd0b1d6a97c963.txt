@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE1OjMwOjU4Ljk4NDA2NyIsInVzZXJfaWQiOiJmZGFmNzRkYS0zNmQ3LTRlOWQtOGU0ZC01ZjY5Yzg5ODc4NGQifQ.ynuzMYOinds1Z4umsFSOPJIoGPwrH56p9eNjsXdD9MM' \
+  -H 'content-length: 388' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Partner throw animal before mouth others.","maxScore":64,"minScore":19,"description":"Me describe statement begin situation. End me plant person open.\nStill message Democrat spring magazine. Travel laugh smile federal person north claim.","estimatedTime":"7 weeks","previewFileId":"1700db97-0021-4af3-b0cd-b9df8337fbc2","createdByUserId":"fdaf74da-36d7-4e9d-8e4d-5f69c898784d"}'

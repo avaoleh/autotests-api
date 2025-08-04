@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE1OjMwOjU4LjM5OTYwMyIsInVzZXJfaWQiOiIzMzJkZmJjMS00Y2Q3LTQ3YTctYWU1Zi05OTUyZWI4NjA1N2YifQ.PJL7a-RETzPzC-G92aqMeTRgcLIDxxFiPWlQ740G41s' \
+  -H 'content-length: 415' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Physical impact exactly race actually.","maxScore":65,"minScore":23,"description":"Ten two science ask story series thousand. Position vote specific together wind health. Though film into require fast.\nGeneral it single anyone send five. Describe whose pull those.","estimatedTime":"4 weeks","previewFileId":"2bc02cb9-ec56-4124-810b-0ca880a1f119","createdByUserId":"332dfbc1-4cd7-47a7-ae5f-9952eb86057f"}'

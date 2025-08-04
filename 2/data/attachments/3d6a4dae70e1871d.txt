@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE1OjMwOjU1LjE1OTM0MSIsInVzZXJfaWQiOiIzMTk2NDZhMy0xNTZkLTQ3ZWYtYmNhNS01YzhkZGNiOWJiOTMifQ.Y_Q3KgjqLI4QuStptIeMsFMdAOiOVxPt042ZW7f03TU' \
+  -H 'content-length: 340' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Firm treatment beyond herself firm several.","maxScore":87,"minScore":23,"description":"What price bag they employee the. Let board modern point. Marriage treatment ten police work military.","estimatedTime":"9 weeks","previewFileId":"096c5882-d201-4cb6-bb45-d9ef2c826936","createdByUserId":"319646a3-156d-47ef-bca5-5c8ddcb9bb93"}'

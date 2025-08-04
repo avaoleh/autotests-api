@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/exercises' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE1OjMwOjU3Ljc1NTc3NSIsInVzZXJfaWQiOiI2NWQ0ZTdhMi05NWE1LTQ1NjItYTg3ZS1kOTYzNTc3ZTg3NTIifQ.zcIApyLV1zkSQHPCFnhRmslkezr-ugf44bq1f2_P3n8' \
+  -H 'content-length: 309' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Purpose program fly painting.","courseId":"a254d770-658d-4559-917e-7f00525f4e40","maxScore":56,"minScore":23,"orderIndex":9,"description":"Dream music training paper just claim. Reach produce consider college public me assume beat. Be ask west hope man station than whom.","estimatedTime":"6 weeks"}'

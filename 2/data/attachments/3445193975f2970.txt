@@ -1,0 +1,11 @@
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'host: localhost:8000' \
+  -H 'accept: */*' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'connection: keep-alive' \
+  -H 'user-agent: python-httpx/0.28.1' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTA4LTA0VDE1OjMwOjU2LjI5OTY0OCIsInVzZXJfaWQiOiJlNTFmNGZjMS01NzdjLTRkNTQtYTRlMi1mYzE1M2FjMjdiMTIifQ.I6kImInOlDKuTenhmQnRj7fZiyOMSonNNRBB-KbPVQU' \
+  -H 'content-length: 375' \
+  -H 'content-type: application/json' \
+  -d '{"title":"Task all for option tend.","maxScore":54,"minScore":3,"description":"Dinner offer game rather. Expert statement sing.\nFederal north social consider trip brother. Hand why offer benefit. Think study while bill onto challenge.","estimatedTime":"7 weeks","previewFileId":"bcdbd20c-2dc9-4d25-be43-e864000e81c9","createdByUserId":"e51f4fc1-577c-4d54-a4e2-fc153ac27b12"}'
