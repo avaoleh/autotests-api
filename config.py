@@ -17,6 +17,7 @@ class TestDataConfig(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
+        extra='allow',  # Разрешаем дополнительные переменные
         env_file=".env",
         env_file_encoding="utf-8",
         env_nested_delimiter=".",
