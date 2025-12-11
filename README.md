@@ -1,9 +1,9 @@
 # API Course Automation Tests
 
 This project implements automated tests for
-the [API Course Test Server](https://github.com/Nikita-Filonov/qa-automation-engineer-api-course). The
+the [API Course Test Server](https://github.com/test/qa-automation-engineer-api-course). The
 tests are written using **Python**, **Pytest**, **Allure**, **Pydantic**, **Faker** and **HTTPX**. The test
-application’s source code is available on [GitHub](https://github.com/Nikita-Filonov/qa-automation-engineer-api-course).
+application’s source code is available on [GitHub](https://github.com/test/qa-automation-engineer-api-course).
 
 ## Project Overview
 
